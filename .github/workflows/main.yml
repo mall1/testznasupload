@@ -28,3 +28,4 @@ jobs:
         with:
           upload_url: ${{ secrets.UPLOAD_URL }}
           upload_path: ${{ github.workspace }}/.github
+          upload_name: aaa
