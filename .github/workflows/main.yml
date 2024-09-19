@@ -1,0 +1,24 @@
+name: Example Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  upload-znas:
+    name: Upload to Znas
+    runs-on: ubuntu-latest
+
+    steps:
+      # Change @main to a specific commit SHA or version tag, e.g.:
+      # mall1/znas-upload-action@e76147da8e5c81eaf017dede5645551d4b94427b
+      # mall1/znas-upload-action@v1.2.3
+      - name: Upload file to Znas
+        uses: mall1/znas-upload-action@main
+        with:
+          upload_url: ${{ secrets.UPLOAD_URL }}
+          upload_path: .
