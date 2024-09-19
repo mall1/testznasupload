@@ -21,4 +21,4 @@ jobs:
         uses: mall1/znas-upload-action@main
         with:
           upload_url: ${{ secrets.UPLOAD_URL }}
-          upload_path: /github
+          upload_path: ${{ github.workspace }}/app
