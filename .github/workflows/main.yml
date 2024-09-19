@@ -1,12 +1,26 @@
 name: Example Workflow
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      upload_url:
+        description: The URL to upload files to
+        required: true
+        default: 'https://example.com/upload'
+        type: string
+      upload_path:
+        description: The path of the folder or file to upload
+        required: true
+        default: 'sample-file.txt'
+        type: string
+      upload_name:
+        description: The optional name for the uploaded ZIP file (without extension)
+        required: false
+        type: string
+      add_timestamp_suffix:
+        description: Set to 'true' to add a timestamp to the file name, 'false' to disable
+        required: false
+        default: 'true'
 
 jobs:
   upload-znas:
@@ -14,18 +28,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Create a sample file
+        run: echo "This is a test file for upload" > sample-file.txt
+
       # Change @main to a specific commit SHA or version tag, e.g.:
       # mall1/znas-upload-action@e76147da8e5c81eaf017dede5645551d4b94427b
       # mall1/znas-upload-action@v1.2.3
-      # Checkout (without LFS)
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          lfs: true
       - name: Upload file to Znas
         uses: mall1/znas-upload-action@main
         with:
-          upload_url: ${{ secrets.UPLOAD_URL }}
-          upload_path: ${{ github.workspace }}/.github/workflows/main.yml
-          upload_name: aaa
+          upload_url: ${{ inputs.upload_url }}
+          upload_path: ${{ inputs.upload_path }}
+          upload_name: ${{ inputs.upload_name }}
+          add_timestamp_suffix: ${{ inputs.add_timestamp_suffix }}
