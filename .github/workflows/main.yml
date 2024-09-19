@@ -3,11 +3,6 @@ name: Example Workflow
 on:
   workflow_dispatch:
     inputs:
-      upload_url:
-        description: The URL to upload files to
-        required: true
-        default: 'https://example.com/upload'
-        type: string
       upload_path:
         description: The path of the folder or file to upload
         required: true
@@ -37,7 +32,7 @@ jobs:
       - name: Upload file to Znas
         uses: mall1/znas-upload-action@main
         with:
-          upload_url: ${{ inputs.upload_url }}
+          upload_url: ${{ secrets.UPLOAD_URL }}
           upload_path: ${{ inputs.upload_path }}
           upload_name: ${{ inputs.upload_name }}
           add_timestamp_suffix: ${{ inputs.add_timestamp_suffix }}
